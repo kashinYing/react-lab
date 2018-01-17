@@ -6,7 +6,7 @@ const resolve = dir => path.join(__dirname, '..', dir);
 module.exports = {
   entry: {
     // app: resolve('src/js/main.js'),
-    app: resolve('src/js/index.js'),
+    app: resolve('src/index.js'),
     vendor: ['lodash', 'react', 'react-dom'],
   },
   output: {
