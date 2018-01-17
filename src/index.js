@@ -1,54 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import PropTypes from 'prop-types';
 
-// const Welcome = props => <h1>Hello, {props.name}!</h1>;
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date(),
+    };
+  }
 
-// const App = () => (
-//   <div>
-//     <Welcome name="Kashin" />
-//     <Welcome name="Jiashun" />
-//     <Welcome name="Frank" />
-//   </div>
-// );
+  componentDidMount() {
+    this.timerID = setInterval(() => this.tick(), 1000);
+  }
 
-// ReactDOM.render(<App />, document.querySelector('#root'));
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
 
-// Welcome.propTypes = {
-//   name: PropTypes.string,
-// };
+  tick() {
+    this.setState({
+      date: new Date(),
+    });
+  }
 
-const formatDate = date => date.toLocaleDateString();
-
-const Avatar = props => (
-  <img className="Avatar" src={props.user.avatarUrl} alt={props.user.name} />
-);
-
-const UserInfo = props => (
-  <div>
-    <Avatar user={props.user} />
-    <div className="UserInfo-name">{props.user.name}</div>
-  </div>
-);
-
-const Comment = props => (
-  <div className="Comment">
-    <UserInfo user={props.author} />
-    <div className="Comment-text">{props.text}</div>
-    <div className="Comment-date">{formatDate(props.date)}</div>
-  </div>
-);
-
-const comment = {
-  date: new Date(),
-  text: 'I hope you enjoy learning React!',
-  author: {
-    name: 'Hello Kitty',
-    avatarUrl: 'http://placekitten.com/g/64/64',
-  },
-};
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.state.date.toLocaleTimeString()}</h2>
+      </div>
+    );
+  }
+}
 
 ReactDOM.render(
-  <Comment date={comment.date} text={comment.text} author={comment.author} />,
+  <div>
+    <Clock />
+    <Clock />
+    <Clock />
+  </div>,
   document.querySelector('#root'),
 );
