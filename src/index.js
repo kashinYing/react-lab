@@ -2,95 +2,49 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/scss/bootstrap.scss';
 
-// const UserGreeting = () => <h1>Welcome back!</h1>;
+// const numbers = [1, 2, 3, 4, 5];
 
-// const GuestGreeting = () => <h1>Please sign up.</h1>;
+// const ListItem = props => <li>{props.value}</li>;
 
-// const Greeting = props =>
-//   props.isLoggedIn ? <UserGreeting /> : <GuestGreeting />;
-
-// const LoginButton = props => <button onClick={props.onClick}>Login</button>;
-
-// const LogoutButton = props => <button onClick={props.onClick}>Logout</button>;
-// class LoginControl extends React.Component {
-//   state = { isLoggedIn: false };
-
-//   handleLoginClick = () => {
-//     this.setState({
-//       isLoggedIn: true,
-//     });
-//   };
-
-//   handleLogoutClick = () => {
-//     this.setState({
-//       isLoggedIn: false,
-//     });
-//   };
-
-//   render() {
-//     const { isLoggedIn } = this.state;
-//     return (
-//       <div>
-//         <Greeting isLoggedIn={isLoggedIn} />
-//         {isLoggedIn ? (
-//           <LogoutButton onClick={this.handleLogoutClick} />
-//         ) : (
-//           <LoginButton onClick={this.handleLoginClick} />
-//         )}
-//       </div>
-//     );
-//   }
-// }
-
-// ReactDOM.render(<LoginControl />, document.querySelector('#root'));
-
-// const Mailbox = props => {
-//   const { unreadMessages } = props;
-//   return (
-//     <div>
-//       <h1>Hello!</h1>
-//       {unreadMessages.length > 0 && (
-//         <h2>You have {unreadMessages.length} unread messages.</h2>
-//       )}
-//     </div>
-//   );
+// const NumberList = props => {
+//   const { numbers } = props;
+//   const listItems = numbers.map(number => (
+//     <ListItem key={number.toString()} value={number} />
+//   ));
+//   return <ul>{listItems}</ul>;
 // };
 
-// const messages = ['React', 'Re: React', 'Re:Re: React'];
-
 // ReactDOM.render(
-//   <Mailbox unreadMessages={messages} />,
+//   <NumberList numbers={numbers} />,
 //   document.querySelector('#root'),
 // );
 
-const WarningBanner = props =>
-  props.warn && <div className="alert alert-danger">Warning!</div>;
+const Blog = props => {
+  const { posts } = props;
 
-class Page extends React.Component {
-  state = { showWarning: true };
+  const sidebar = (
+    <ul>{posts.map(post => <li key={post.id}>{post.title}</li>)}</ul>
+  );
 
-  handleToggleClick = () => {
-    this.setState(prevState => ({
-      showWarning: !prevState.showWarning,
-    }));
-  };
+  const content = posts.map(post => (
+    <div>
+      <h3>{post.title}</h3>
+      <p>{post.content}</p>
+    </div>
+  ));
 
-  render() {
-    const { showWarning } = this.state;
-    return (
-      <div>
-        <WarningBanner warn={showWarning} />
-        <button
-          onClick={this.handleToggleClick}
-          className={
-            showWarning ? 'btn btn-info btn-lg' : 'btn btn-danger btn-lg'
-          }
-        >
-          {showWarning ? 'Hide' : 'Show'}
-        </button>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      {sidebar}
+      <hr />
+      {content}
+    </div>
+  );
+};
 
-ReactDOM.render(<Page />, document.querySelector('#root'));
+const posts = [
+  { id: 1, title: 'Hello World', content: 'Welcome to learning React!' },
+  { id: 2, title: 'Installation', content: 'You can install React from npm.' },
+];
+
+ReactDOM.render(<Blog posts={posts} />, document.querySelector('#root'));
