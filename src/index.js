@@ -1,43 +1,86 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class Clock extends React.Component {
+// const ActionLink = () => {
+//   const handleClick = e => {
+//     e.preventDefault();
+//     console.log('This link was clicked.');
+//   };
+
+//   return (
+//     <a href="#" onClick={handleClick}>
+//       Click me
+//     </a>
+//   );
+// };
+
+// ReactDOM.render(<ActionLink />, document.querySelector('#root'));
+
+// class Toogle extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       isToogleOn: true,
+//     };
+//     // this.handleClick = this.handleClick.bind(this);
+//   }
+
+//   handleClick() {
+//     console.log(this);
+//     this.setState(prevState => ({
+//       isToogleOn: !prevState.isToogleOn,
+//     }));
+//   }
+
+//   render() {
+//     return (
+//       <button onClick={this.handleClick}>
+//         {this.state.isToogleOn ? 'ON' : 'OFF'}
+//       </button>
+//     );
+//   }
+// }
+
+// class LoggingButton extends React.Component {
+//   handleClick = () => {
+//     // console.log(`this is: ${this}`);
+//     console.log(this);
+//   };
+
+//   render() {
+//     return <button onClick={this.handleClick}>Click me</button>;
+//   }
+// }
+
+// ReactDOM.render(<LoggingButton />, document.querySelector('#root'));
+
+class Popper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: new Date(),
+      name: 'Hello World!',
     };
   }
 
-  componentDidMount() {
-    this.timerID = setInterval(() => this.tick(), 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  tick() {
-    this.setState({
-      date: new Date(),
-    });
-  }
+  preventPop = (name, e) => {
+    console.log(e);
+    e.preventDefault();
+    alert(name);
+  };
 
   render() {
     return (
       <div>
-        <h1>Hello, world!</h1>
-        <h2>It is {this.state.date.toLocaleTimeString()}</h2>
+        <p>hello</p>
+        <a
+          href="https://reactjs.org"
+          onClick={e => this.preventPop(this.state.name, e)}
+        >
+          Click
+        </a>
       </div>
     );
   }
 }
 
-ReactDOM.render(
-  <div>
-    <Clock />
-    <Clock />
-    <Clock />
-  </div>,
-  document.querySelector('#root'),
-);
+ReactDOM.render(<Popper />, document.querySelector('#root'));
