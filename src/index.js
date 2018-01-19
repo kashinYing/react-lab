@@ -1,86 +1,96 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'bootstrap/scss/bootstrap.scss';
 
-// const ActionLink = () => {
-//   const handleClick = e => {
-//     e.preventDefault();
-//     console.log('This link was clicked.');
+// const UserGreeting = () => <h1>Welcome back!</h1>;
+
+// const GuestGreeting = () => <h1>Please sign up.</h1>;
+
+// const Greeting = props =>
+//   props.isLoggedIn ? <UserGreeting /> : <GuestGreeting />;
+
+// const LoginButton = props => <button onClick={props.onClick}>Login</button>;
+
+// const LogoutButton = props => <button onClick={props.onClick}>Logout</button>;
+// class LoginControl extends React.Component {
+//   state = { isLoggedIn: false };
+
+//   handleLoginClick = () => {
+//     this.setState({
+//       isLoggedIn: true,
+//     });
 //   };
 
-//   return (
-//     <a href="#" onClick={handleClick}>
-//       Click me
-//     </a>
-//   );
-// };
-
-// ReactDOM.render(<ActionLink />, document.querySelector('#root'));
-
-// class Toogle extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       isToogleOn: true,
-//     };
-//     // this.handleClick = this.handleClick.bind(this);
-//   }
-
-//   handleClick() {
-//     console.log(this);
-//     this.setState(prevState => ({
-//       isToogleOn: !prevState.isToogleOn,
-//     }));
-//   }
+//   handleLogoutClick = () => {
+//     this.setState({
+//       isLoggedIn: false,
+//     });
+//   };
 
 //   render() {
+//     const { isLoggedIn } = this.state;
 //     return (
-//       <button onClick={this.handleClick}>
-//         {this.state.isToogleOn ? 'ON' : 'OFF'}
-//       </button>
+//       <div>
+//         <Greeting isLoggedIn={isLoggedIn} />
+//         {isLoggedIn ? (
+//           <LogoutButton onClick={this.handleLogoutClick} />
+//         ) : (
+//           <LoginButton onClick={this.handleLoginClick} />
+//         )}
+//       </div>
 //     );
 //   }
 // }
 
-// class LoggingButton extends React.Component {
-//   handleClick = () => {
-//     // console.log(`this is: ${this}`);
-//     console.log(this);
-//   };
+// ReactDOM.render(<LoginControl />, document.querySelector('#root'));
 
-//   render() {
-//     return <button onClick={this.handleClick}>Click me</button>;
-//   }
-// }
+// const Mailbox = props => {
+//   const { unreadMessages } = props;
+//   return (
+//     <div>
+//       <h1>Hello!</h1>
+//       {unreadMessages.length > 0 && (
+//         <h2>You have {unreadMessages.length} unread messages.</h2>
+//       )}
+//     </div>
+//   );
+// };
 
-// ReactDOM.render(<LoggingButton />, document.querySelector('#root'));
+// const messages = ['React', 'Re: React', 'Re:Re: React'];
 
-class Popper extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: 'Hello World!',
-    };
-  }
+// ReactDOM.render(
+//   <Mailbox unreadMessages={messages} />,
+//   document.querySelector('#root'),
+// );
 
-  preventPop = (name, e) => {
-    console.log(e);
-    e.preventDefault();
-    alert(name);
+const WarningBanner = props =>
+  props.warn && <div className="alert alert-danger">Warning!</div>;
+
+class Page extends React.Component {
+  state = { showWarning: true };
+
+  handleToggleClick = () => {
+    this.setState(prevState => ({
+      showWarning: !prevState.showWarning,
+    }));
   };
 
   render() {
+    const { showWarning } = this.state;
     return (
       <div>
-        <p>hello</p>
-        <a
-          href="https://reactjs.org"
-          onClick={e => this.preventPop(this.state.name, e)}
+        <WarningBanner warn={showWarning} />
+        <button
+          onClick={this.handleToggleClick}
+          className={
+            showWarning ? 'btn btn-info btn-lg' : 'btn btn-danger btn-lg'
+          }
         >
-          Click
-        </a>
+          {showWarning ? 'Hide' : 'Show'}
+        </button>
       </div>
     );
   }
 }
 
-ReactDOM.render(<Popper />, document.querySelector('#root'));
+ReactDOM.render(<Page />, document.querySelector('#root'));
