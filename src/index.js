@@ -1,50 +1,144 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'bootstrap/scss/bootstrap.scss';
+// import 'bootstrap/scss/bootstrap.scss';
 
-// const numbers = [1, 2, 3, 4, 5];
+// class NameForm extends React.Component {
+//   state = { value: '' };
 
-// const ListItem = props => <li>{props.value}</li>;
+//   handleChange = event => {
+//     this.setState({
+//       value: event.target.value.toUpperCase(),
+//     });
+//   };
 
-// const NumberList = props => {
-//   const { numbers } = props;
-//   const listItems = numbers.map(number => (
-//     <ListItem key={number.toString()} value={number} />
-//   ));
-//   return <ul>{listItems}</ul>;
-// };
+//   handleSubmit = event => {
+//     alert(`A name was submitted: ${this.state.value}`);
+//     event.preventDefault();
+//   };
 
-// ReactDOM.render(
-//   <NumberList numbers={numbers} />,
-//   document.querySelector('#root'),
-// );
+//   render() {
+//     return (
+//       <form onSubmit={this.handleSubmit}>
+//         <label id="name" htmlFor="name">
+//           Name:
+//           <input
+//             type="text"
+//             value={this.state.value}
+//             onChange={this.handleChange}
+//           />
+//         </label>
+//         <input type="submit" value="Submit" />
+//       </form>
+//     );
+//   }
+// }
 
-const Blog = props => {
-  const { posts } = props;
+// ReactDOM.render(<NameForm />, document.querySelector('#root'));
 
-  const sidebar = (
-    <ul>{posts.map(post => <li key={post.id}>{post.title}</li>)}</ul>
-  );
+// class EssayForm extends React.Component {
+//   state = { value: 'Please write an essay about your favorite DOM element.' };
 
-  const content = posts.map(post => (
-    <div>
-      <h3>{post.title}</h3>
-      <p>{post.content}</p>
-    </div>
-  ));
+//   handleChange = event => {
+//     this.setState({
+//       value: event.target.value,
+//     });
+//   };
 
-  return (
-    <div>
-      {sidebar}
-      <hr />
-      {content}
-    </div>
-  );
-};
+//   handleSubmit = event => {
+//     alert(`A essay was submitted: ${this.state.value}`);
+//     event.preventDefault();
+//   };
 
-const posts = [
-  { id: 1, title: 'Hello World', content: 'Welcome to learning React!' },
-  { id: 2, title: 'Installation', content: 'You can install React from npm.' },
-];
+//   render() {
+//     return (
+//       <form onSubmit={this.handleSubmit}>
+//         <label id="name" htmlFor="name">
+//           Name:
+//           <textarea value={this.state.value} onChange={this.handleChange} />
+//         </label>
+//         <input type="submit" value="Submit" />
+//       </form>
+//     );
+//   }
+// }
 
-ReactDOM.render(<Blog posts={posts} />, document.querySelector('#root'));
+// ReactDOM.render(<EssayForm />, document.querySelector('#root'));
+
+// class FlavorForm extends React.Component {
+//   state = { value: 'coconut' };
+
+//   handleChange = event => {
+//     this.setState({
+//       value: event.target.value,
+//     });
+//   };
+
+//   handleSubmit = event => {
+//     alert(`Your favorite flavor is: ${this.state.value}`);
+//     event.preventDefault();
+//   };
+
+//   render() {
+//     return (
+//       <form onSubmit={this.handleSubmit}>
+//         <label id="flavor" htmlFor="flavor">
+//           Pick your favorite La Croix flavor:
+//           <select value={this.state.value} onChange={this.handleChange}>
+//             <option value="grapefruit">Grapefruit</option>
+//             <option value="lime">Lime</option>
+//             <option value="coconut">Coconut</option>
+//             <option value="mango">Mango</option>
+//           </select>
+//         </label>
+//         <input type="submit" value="Submit" />
+//       </form>
+//     );
+//   }
+// }
+
+// ReactDOM.render(<FlavorForm />, document.querySelector('#root'));
+
+class Reservation extends React.Component {
+  state = {
+    isGoing: true,
+    numberOfGuests: 2,
+  };
+
+  handleInputChange = event => {
+    const { target } = event;
+    const { name } = target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  render() {
+    return (
+      <form>
+        <label>
+          Is going:
+          <input
+            name="isGoing"
+            type="checkbox"
+            checked={this.state.isGoing}
+            onChange={this.handleInputChange}
+          />
+        </label>
+        <br />
+        <label>
+          Number of guests:
+          <input
+            name="numberOfGuests"
+            type="number"
+            value={this.state.numberOfGuests}
+            onChange={this.handleInputChange}
+          />
+        </label>
+      </form>
+    );
+  }
+}
+
+ReactDOM.render(<Reservation />, document.querySelector('#root'));
