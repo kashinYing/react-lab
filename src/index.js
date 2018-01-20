@@ -2,143 +2,85 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // import 'bootstrap/scss/bootstrap.scss';
 
-// class NameForm extends React.Component {
-//   state = { value: '' };
+const BoilingVerdict = props =>
+  props.celsius >= 100 ? (
+    <p>The water would boil.</p>
+  ) : (
+    <p>The water would not boil.</p>
+  );
 
-//   handleChange = event => {
-//     this.setState({
-//       value: event.target.value.toUpperCase(),
-//     });
-//   };
+const scaleNames = {
+  c: 'Celsius',
+  f: 'Fahrenheit',
+};
 
-//   handleSubmit = event => {
-//     alert(`A name was submitted: ${this.state.value}`);
-//     event.preventDefault();
-//   };
+const toCelsius = fahrenheit => (fahrenheit - 32) * 5 / 9;
 
-//   render() {
-//     return (
-//       <form onSubmit={this.handleSubmit}>
-//         <label id="name" htmlFor="name">
-//           Name:
-//           <input
-//             type="text"
-//             value={this.state.value}
-//             onChange={this.handleChange}
-//           />
-//         </label>
-//         <input type="submit" value="Submit" />
-//       </form>
-//     );
-//   }
-// }
+const toFahrenheit = celsius => celsius * 9 / 5 + 32;
 
-// ReactDOM.render(<NameForm />, document.querySelector('#root'));
-
-// class EssayForm extends React.Component {
-//   state = { value: 'Please write an essay about your favorite DOM element.' };
-
-//   handleChange = event => {
-//     this.setState({
-//       value: event.target.value,
-//     });
-//   };
-
-//   handleSubmit = event => {
-//     alert(`A essay was submitted: ${this.state.value}`);
-//     event.preventDefault();
-//   };
-
-//   render() {
-//     return (
-//       <form onSubmit={this.handleSubmit}>
-//         <label id="name" htmlFor="name">
-//           Name:
-//           <textarea value={this.state.value} onChange={this.handleChange} />
-//         </label>
-//         <input type="submit" value="Submit" />
-//       </form>
-//     );
-//   }
-// }
-
-// ReactDOM.render(<EssayForm />, document.querySelector('#root'));
-
-// class FlavorForm extends React.Component {
-//   state = { value: 'coconut' };
-
-//   handleChange = event => {
-//     this.setState({
-//       value: event.target.value,
-//     });
-//   };
-
-//   handleSubmit = event => {
-//     alert(`Your favorite flavor is: ${this.state.value}`);
-//     event.preventDefault();
-//   };
-
-//   render() {
-//     return (
-//       <form onSubmit={this.handleSubmit}>
-//         <label id="flavor" htmlFor="flavor">
-//           Pick your favorite La Croix flavor:
-//           <select value={this.state.value} onChange={this.handleChange}>
-//             <option value="grapefruit">Grapefruit</option>
-//             <option value="lime">Lime</option>
-//             <option value="coconut">Coconut</option>
-//             <option value="mango">Mango</option>
-//           </select>
-//         </label>
-//         <input type="submit" value="Submit" />
-//       </form>
-//     );
-//   }
-// }
-
-// ReactDOM.render(<FlavorForm />, document.querySelector('#root'));
-
-class Reservation extends React.Component {
+const tryConvert = (temperature, convert) => {
+  const input = parseFloat(temperature);
+  if (Number.isNaN(input)) {
+    return '';
+  }
+  const output = convert(input);
+  const rounded = Math.round(output * 1000) / 1000;
+  return rounded.toString();
+};
+class Calculator extends React.Component {
   state = {
-    isGoing: true,
-    numberOfGuests: 2,
+    temperature: '',
+    scale: 'c',
   };
 
-  handleInputChange = event => {
-    const { target } = event;
-    const { name } = target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+  handleCelsiusChange = temperature => {
+    this.setState({ scale: 'c', temperature });
+  };
 
-    this.setState({
-      [name]: value,
-    });
+  handleFahrenheitChange = temperature => {
+    this.setState({ scale: 'f', temperature });
   };
 
   render() {
+    const { scale, temperature } = this.state;
+
+    const celsius =
+      scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
+    const fahrenheit =
+      scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
+
     return (
-      <form>
-        <label>
-          Is going:
-          <input
-            name="isGoing"
-            type="checkbox"
-            checked={this.state.isGoing}
-            onChange={this.handleInputChange}
-          />
-        </label>
-        <br />
-        <label>
-          Number of guests:
-          <input
-            name="numberOfGuests"
-            type="number"
-            value={this.state.numberOfGuests}
-            onChange={this.handleInputChange}
-          />
-        </label>
-      </form>
+      <div>
+        <TemperatureInput
+          scale="c"
+          temperature={celsius}
+          onTemperatureChange={this.handleCelsiusChange}
+        />
+        <TemperatureInput
+          scale="f"
+          temperature={fahrenheit}
+          onTemperatureChange={this.handleFahrenheitChange}
+        />
+        <BoilingVerdict celsius={parseFloat(celsius)} />
+      </div>
     );
   }
 }
 
-ReactDOM.render(<Reservation />, document.querySelector('#root'));
+class TemperatureInput extends React.Component {
+  handleChange = e => {
+    this.props.onTemperatureChange(e.target.value);
+  };
+
+  render() {
+    const { temperature, scale } = this.props;
+    return (
+      <fieldset>
+        <legend>Enter temperature in {scaleNames[scale]}:</legend>
+        <input value={temperature} onChange={this.handleChange} />
+      </fieldset>
+    );
+  }
+}
+
+ReactDOM.render(<Calculator />, document.querySelector('#root'));
