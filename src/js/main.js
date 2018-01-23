@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { printMe } from './print';
-import '../styles/main.scss';
+import '../styles/main.css';
 // import Icon from '../img/webpack-small.svg';
 // import Big from '../img/big.jpg';
 

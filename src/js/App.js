@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../img/webpack-small.svg';
-import '../styles/App.scss';
+import '../styles/App.css';
 
 class App extends Component {
   render() {
